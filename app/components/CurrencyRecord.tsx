@@ -67,7 +67,7 @@ function CurrencyBox({
       <div className="flex gap-0.5 text-3xl">
         <p className="opacity-80 font-light">{amountSymbol}</p>
         <p className="font-semibold overflow-y-auto">
-          {numberWithCommas(amount)}
+          {numberWithCommas(amount.toString())}
         </p>
       </div>
       <p>{country}</p>

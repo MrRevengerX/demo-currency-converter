@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { ALLOWED_CURRENCIES } from "@/lib/data";
 import dbConnect from "@/lib/dbConnection";
-import currencyRecord, { ALLOWED_CURRENCIES } from "@/models/currencyRecord";
+import currencyRecord from "@/models/currencyRecord";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -41,7 +42,7 @@ export async function GET() {
   await dbConnect();
 
   try {
-    const transfers = await currencyRecord.find();
+    const transfers = await currencyRecord.find().sort({ createdAt: -1 });
 
     return NextResponse.json({ success: true, data: transfers });
   } catch (error: any) {

@@ -15,10 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`antialiased h-screen bg-neutral-900`}
-        cz-shortcut-listen="true"
-      >
+      <body className={`antialiased bg-neutral-900`} cz-shortcut-listen="true">
         <ReactQueryProvider>
           {children}
           <footer className="flex py-3 items-center justify-center">

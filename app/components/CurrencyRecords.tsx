@@ -6,15 +6,15 @@ import { CurrencyRecordType } from "@/types";
 
 function CurrencyRecords() {
   const { data, isLoading, isError, isSuccess } = useQuery({
-    queryKey: ["models"],
+    queryKey: ["currencyRecords"],
     queryFn: async () => {
-      console.log("Fetching models");
       const res = await fetch("/api/currency-records");
       return await res.json();
     },
   });
+
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 min-h-96">
       {isLoading && <div>Loading...</div>}
       {isError && <div>Error fetching data</div>}
       {isSuccess &&
