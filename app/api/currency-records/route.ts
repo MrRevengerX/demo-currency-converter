@@ -1,13 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import dbConnect from "@/lib/dbConnection";
-import currencyRecord from "@/models/currencyRecord";
+import currencyRecord, { ALLOWED_CURRENCIES } from "@/models/currencyRecord";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   await dbConnect();
   try {
     const { fromCountry, toCountry, amount, convertedAmount, currency } =
-      await req.json();
+      await req.json(); // Get the data from the request body
+
+    if (!ALLOWED_CURRENCIES[fromCountry] || !ALLOWED_CURRENCIES[toCountry]) {
+      return NextResponse.json(
+        { success: false, message: "Invalid country" },
+        { status: 400 }
+      );
+    }
 
     const transfer = await currencyRecord.create({
       fromCountry,
@@ -15,7 +22,9 @@ export async function POST(req: NextRequest) {
       amount,
       convertedAmount,
       currency,
-    }); // Get the data from the request body
+      fromCurrencySymbol: ALLOWED_CURRENCIES[fromCountry].symbol,
+      toCurrencySymbol: ALLOWED_CURRENCIES[toCountry].symbol,
+    });
 
     return NextResponse.json(
       { success: true, data: transfer },
