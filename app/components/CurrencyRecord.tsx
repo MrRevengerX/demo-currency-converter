@@ -1,12 +1,15 @@
 import { CurrencyRecordType } from "@/types";
 import { numberWithCommas } from "@/utils/numberWithCommas";
 import { Button } from "@mui/material";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import clsx from "clsx";
-import { ArrowRight, Trash2 } from "lucide-react";
+import { ArrowRight, LoaderIcon, Trash2 } from "lucide-react";
 import React from "react";
 
 function CurrencyRecord(props: CurrencyRecordType) {
+  const queryClient = useQueryClient();
   const {
+    _id,
     amount,
     amountSymbol,
     convertedAmount,
@@ -15,6 +18,25 @@ function CurrencyRecord(props: CurrencyRecordType) {
     toCountry,
     createdAt,
   } = props;
+
+  const { mutate: handleDelete, isPending } = useMutation({
+    mutationFn: async () => {
+      const res = await fetch("/api/currency-records", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: _id,
+        }),
+      });
+
+      if (!res.ok) throw new Error("Failed to delete the record");
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["currencyRecords"] }); // Refetch data
+    },
+  });
+
   const date = new Date(createdAt);
   const createdTime = date.toLocaleString();
   return (
@@ -24,8 +46,15 @@ function CurrencyRecord(props: CurrencyRecordType) {
         <Button
           variant="outlined"
           size="small"
-          startIcon={<Trash2 size={14} />}
+          startIcon={
+            isPending ? (
+              <LoaderIcon className="animate-spin" />
+            ) : (
+              <Trash2 size={14} />
+            )
+          }
           color="error"
+          onClick={() => handleDelete()}
         >
           Delete
         </Button>
