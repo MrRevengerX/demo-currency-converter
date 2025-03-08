@@ -1,13 +1,5 @@
-import { Schema, Document, model, models } from "mongoose";
-
-interface ICurrencyTransfer extends Document {
-  fromCountry: string;
-  toCountry: string;
-  amount: number;
-  convertedAmount: number;
-  amountSymbol: string;
-  convertedAmountSymbol: string;
-}
+import { CurrencyRecordType } from "@/types";
+import { Schema, model, models } from "mongoose";
 
 export const ALLOWED_CURRENCIES: Record<
   string,
@@ -19,7 +11,7 @@ export const ALLOWED_CURRENCIES: Record<
   India: { currency: "INR", symbol: "₹" },
 };
 
-const CurrencyRecordSchema = new Schema<ICurrencyTransfer>(
+const CurrencyRecordSchema = new Schema<CurrencyRecordType>(
   {
     fromCountry: {
       type: String,
@@ -47,6 +39,6 @@ const CurrencyRecordSchema = new Schema<ICurrencyTransfer>(
 
 const CurrencyRecord =
   models.CurrencyTransfer ||
-  model<ICurrencyTransfer>("CurrencyTransfer", CurrencyRecordSchema);
+  model<CurrencyRecordType>("CurrencyTransfer", CurrencyRecordSchema);
 
 export default CurrencyRecord;
