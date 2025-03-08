@@ -3,6 +3,7 @@ import React from "react";
 import CurrencyRecord from "./CurrencyRecord";
 import { useQuery } from "@tanstack/react-query";
 import { CurrencyRecordType } from "@/types";
+import CurrencyRecordSkeleton from "./CurrencyRecordSkeleton";
 
 function CurrencyRecords() {
   const { data, isLoading, isError, isSuccess } = useQuery({
@@ -15,7 +16,12 @@ function CurrencyRecords() {
 
   return (
     <div className="flex flex-col gap-4 min-h-96">
-      {isLoading && <div>Loading...</div>}
+      {isLoading && (
+        <>
+          <CurrencyRecordSkeleton />
+          <CurrencyRecordSkeleton />
+        </>
+      )}
       {isError && <div>Error fetching data</div>}
       {isSuccess &&
         data.data.map((record: CurrencyRecordType) => (

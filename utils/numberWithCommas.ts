@@ -1,8 +1,8 @@
 import { numericFormatter } from "react-number-format";
 
-// Regex to add commas to numbers
 export function numberWithCommas(x: string) {
-  return numericFormatter(x, {
+  const cleaned = x.replace(/[^\d.]/g, ""); //Regex to remove all non-numeric characters
+  return numericFormatter(cleaned, {
     thousandSeparator: true,
     decimalScale: 3,
     allowNegative: false,

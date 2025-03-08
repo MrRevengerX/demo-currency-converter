@@ -54,7 +54,6 @@ function CurrencyConverter() {
     queryKey: ["fromCurrency", fromCountyCurrency],
     queryFn: async () => {
       if (!fromCountyCurrency) return null;
-      console.log("Fetching models");
       const res = await fetch(
         `https://open.er-api.com/v6/latest/${fromCountyCurrency}`
       );
@@ -62,8 +61,6 @@ function CurrencyConverter() {
     },
     enabled: !!fromCountyCurrency,
   });
-
-  console.log(data);
 
   useEffect(() => {
     const convertCurrency = async () => {
@@ -139,7 +136,7 @@ function CurrencyConverter() {
             <div className="text-4xl flex gap-2 items-center">
               <p>{ALLOWED_CURRENCIES[fromCountry]?.symbol}</p>
               <input
-                type="number"
+                type="text"
                 className="w-full border-b text-5xl outline-0"
                 value={formattedAmount}
                 onChange={handleChange}
