@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
   await dbConnect();
   try {
-    const { fromCountry, toCountry, amount, convertedAmount, currency } =
+    const { fromCountry, toCountry, amount, convertedAmount } =
       await req.json(); // Get the data from the request body
 
     if (!ALLOWED_CURRENCIES[fromCountry] || !ALLOWED_CURRENCIES[toCountry]) {
@@ -21,9 +21,8 @@ export async function POST(req: NextRequest) {
       toCountry,
       amount,
       convertedAmount,
-      currency,
-      fromCurrencySymbol: ALLOWED_CURRENCIES[fromCountry].symbol,
-      toCurrencySymbol: ALLOWED_CURRENCIES[toCountry].symbol,
+      amountSymbol: ALLOWED_CURRENCIES[fromCountry].symbol,
+      convertedAmountSymbol: ALLOWED_CURRENCIES[toCountry].symbol,
     });
 
     return NextResponse.json(
