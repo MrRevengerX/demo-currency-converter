@@ -17,5 +17,8 @@ const CurrencyRecordSchema = new Schema<ICurrencyTransfer>(
   { timestamps: true }
 );
 
-export default models.CurrencyRecordSchema ||
+const CurrencyRecord =
+  models.CurrencyTransfer ||
   model<ICurrencyTransfer>("CurrencyTransfer", CurrencyRecordSchema);
+
+export default CurrencyRecord;
