@@ -6,4 +6,5 @@ export type CurrencyRecordType = {
   convertedAmount: number;
   amountSymbol: string;
   convertedAmountSymbol: string;
+  createdAt: string;
 };
